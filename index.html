@@ -22,7 +22,12 @@
         <section>
             <div class="input-content">
                 <img id="add" class="add button-img" src="./src/assets/img/plus.png" alt="" />
-                <input id="todoInput" class="input" placeholder="What need to be done?" type="text" />
+                <input
+                    id="todoInput"
+                    class="input"
+                    placeholder="What need to be done?"
+                    type="text"
+                />
             </div>
         </section>
         <section id="todoList"></section>
@@ -32,13 +37,14 @@
                 try {
                     async function registerServerWorker() {
                         try {
-                            // github page 使用
-                            let registerUrl = '/try_pwa_html/sw.js'
-                            let option = { scope: '/try_pwa_html/' }
-                            //  local 端使用
+                            // local 端使用
+                            let registerUrl = '/sw.js'
+                            let option = {}
+
+                            // 如果不是 local 端，要加上 github page repository 的 url
                             if (window.location.host.includes('127.0.0.1')) {
-                                registerUrl = '/sw.js'
-                                option = {}
+                                registerUrl = '/try_pwa_html/sw.js'
+                                option = { scope: '/try_pwa_html/' }
                             }
 
                             if ('serviceWorker' in navigator) {

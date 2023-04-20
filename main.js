@@ -10,9 +10,17 @@
             .map(
                 (item, index) => `
                 <div class="list-content" data-id="${item.id}">
-                    <img class="button-img toggle-btn" src="${item.isComplete ? './src/assets/img/check.png' : './src/assets/img/circle-outline.png'}" alt="" data-id="${item.id}" />
-                    <div class="${item.isComplete ? 'content content-finish' : 'content content-unfinish'}" data-id="${item.id}">${item.desc}</div>
-                    <img class="button-img delete-btn" src="./src/assets/img/close.png" alt="" data-id="${item.id}" />
+                    <img class="button-img toggle-btn" src="${
+                        item.isComplete
+                            ? './src/assets/img/check.png'
+                            : './src/assets/img/circle-outline.png'
+                    }" alt="" data-id="${item.id}" />
+                    <div class="${
+                        item.isComplete ? 'content content-finish' : 'content content-unfinish'
+                    }" data-id="${item.id}">${item.desc}</div>
+                    <img class="button-img delete-btn" src="./src/assets/img/close.png" alt="" data-id="${
+                        item.id
+                    }" />
                 </div>
             `
             )
