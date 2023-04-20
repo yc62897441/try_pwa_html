@@ -49,7 +49,7 @@ self.addEventListener('fetch', (event) => {
     // console.log('event.request:', event.request)
     // console.log('[ServiceWorker] Fetch', event.request.url)
 
-    const dataUrl = 'http://localhost:3000'
+    // const dataUrl = 'http://localhost:3000'
     event.respondWith(
         caches.match(event.request).then(function (response) {
             // 如果存在 cached 過的 response 資料，則將其回傳
