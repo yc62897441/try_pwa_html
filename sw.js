@@ -1,6 +1,8 @@
 const filesToCache = ['/', '/src/main.css', '/src/assets/img/checklist.png', '/src/assets/img/plus.png', '/src/assets/img/check.png', '/src/assets/img/circle-outline.png', '/src/assets/img/close.png', '/index.html']
 const cacheName = 'todolist-v1'
 
+console.log('sw.js')
+
 // install
 // 在 install 裡面要透過 Cache Storage（非同步）把所有靜態檔案 Cache 到瀏覽器中
 self.addEventListener('install', (event) => {
