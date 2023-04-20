@@ -1,13 +1,15 @@
 // let mainUrl = '/try_pwa_html'
 let filesToCache = [
-    '/', 
-    '/src/main.css', 
-    '/src/assets/img/checklist.png', 
-    '/src/assets/img/plus.png', 
-    '/src/assets/img/check.png', 
-    '/src/assets/img/circle-outline.png', 
-    '/src/assets/img/close.png', 
-    '/index.html'
+    '/',
+    '/src/main.css',
+    '/src/assets/img/checklist.png',
+    '/src/assets/img/plus.png',
+    '/src/assets/img/check.png',
+    '/src/assets/img/circle-outline.png',
+    '/src/assets/img/close.png',
+    '/index.html',
+    '/main.js',
+    '/manifest.json',
 ]
 if (location?.host && !location?.host.includes('127.0.0.1')) {
     filesToCache = filesToCache.map((item) => {
@@ -15,27 +17,27 @@ if (location?.host && !location?.host.includes('127.0.0.1')) {
         return '/try_pwa_html' + item
     })
 } else {
-    console.log('location?.host', location?.host )
+    console.log('location?.host', location?.host)
 }
-// '/{repository}/',   
+// '/{repository}/',
 // const filesToCache = [
-//     '/', 
-//     '/src/main.css', 
-//     '/src/assets/img/checklist.png', 
-//     '/src/assets/img/plus.png', 
-//     '/src/assets/img/check.png', 
-//     '/src/assets/img/circle-outline.png', 
-//     '/src/assets/img/close.png', 
+//     '/',
+//     '/src/main.css',
+//     '/src/assets/img/checklist.png',
+//     '/src/assets/img/plus.png',
+//     '/src/assets/img/check.png',
+//     '/src/assets/img/circle-outline.png',
+//     '/src/assets/img/close.png',
 //     '/index.html'
 // ]
 // const filesToCache = [
-//     `${mainUrl}/`, 
-//     `${mainUrl}/src/main.css`, 
-//     `${mainUrl}/src/assets/img/checklist.png`, 
-//     `${mainUrl}/src/assets/img/plus.png`, 
-//     `${mainUrl}/src/assets/img/check.png`, 
-//     `${mainUrl}/src/assets/img/circle-outline.png`, 
-//     `${mainUrl}/src/assets/img/close.png`, 
+//     `${mainUrl}/`,
+//     `${mainUrl}/src/main.css`,
+//     `${mainUrl}/src/assets/img/checklist.png`,
+//     `${mainUrl}/src/assets/img/plus.png`,
+//     `${mainUrl}/src/assets/img/check.png`,
+//     `${mainUrl}/src/assets/img/circle-outline.png`,
+//     `${mainUrl}/src/assets/img/close.png`,
 //     `${mainUrl}/index.html`
 // ]
 const cacheName = 'todolist-v1'
