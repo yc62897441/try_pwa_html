@@ -1,0 +1,21 @@
+{
+    "name": "PWA To-Do List with Vanilla JS",
+    "short_name": "To-Do List",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "/src/assets/img/checklist_128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "/src/assets/img/checklist.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "background_color": "#F4A11D",
+    "display": "standalone",
+    "orientation": "portrait",
+    "theme_color": "#CC7412"
+}

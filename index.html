@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>PWA To-Do List with Vanilla JS</title>
+        <link rel="stylesheet" href="/src/main.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans" />
+        <link rel="manifest" href="/manifest.json" />
+    </head>
+    <body>
+        <header class="header">
+            <img class="logo" src="/src/assets/img/checklist.png" alt="" />
+            <div class="unfinished">
+                <span class="count">0</span>
+                <span>個未完成</span>
+            </div>
+        </header>
+        <section>
+            <div class="input-content">
+                <img id="add" class="add button-img" src="/src/assets/img/plus.png" alt="" />
+                <input id="todoInput" class="input" placeholder="What need to be done?" type="text" />
+            </div>
+        </section>
+        <section id="todoList"></section>
+
+        <script>
+            async function init() {
+                try {
+                    async function registerServerWorker() {
+                        try {
+                            if ('serviceWorker' in navigator) {
+                                await navigator.serviceWorker
+                                    .register('/sw.js')
+                                    .then((reg) => console.log('完成 SW 設定!', reg))
+                                    .catch((err) => console.log('Error!', err))
+                            }
+                        } catch (error) {
+                            console.log('error', error)
+                        }
+                    }
+                    await registerServerWorker()
+                    console.log('Server Worker 註冊完成')
+                } catch (error) {}
+            }
+            // function init() {
+            //     function registerServerWorker() {
+            //         if ('serviceWorker' in navigator) {
+            //             navigator.serviceWorker
+            //                 .register('/sw.js')
+            //                 .then((reg) => console.log('完成 SW 設定!', reg))
+            //                 .catch((err) => console.log('Error!', err))
+            //         }
+            //     }
+            //     registerServerWorker()
+            //     console.log('Server Worker 註冊完成')
+            // }
+            init()
+        </script>
+
+        <script src="main.js"></script>
+    </body>
+</html>

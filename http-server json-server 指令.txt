@@ -1,0 +1,5 @@
+啟動 http-server
+http-server
+
+啟動 json-server
+json-server --watch db.json

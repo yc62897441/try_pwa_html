@@ -1,0 +1,43 @@
+{
+  "people": [
+    {
+      "id": 0,
+      "name": "Anna"
+    },
+    {
+      "name": "Rulin",
+      "id": 1
+    },
+    {
+      "name": "Jane",
+      "id": 2
+    }
+  ],
+  "todolist": [
+    {
+      "id": 0,
+      "isComplete": true,
+      "desc": "...0"
+    },
+    {
+      "id": 1,
+      "isComplete": false,
+      "desc": "...1"
+    },
+    {
+      "desc": "aaa",
+      "isComplete": true,
+      "id": 2
+    },
+    {
+      "desc": "ccc",
+      "isComplete": true,
+      "id": 3
+    },
+    {
+      "desc": "aaa",
+      "isComplete": true,
+      "id": 4
+    }
+  ]
+}
