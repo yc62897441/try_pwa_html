@@ -30,7 +30,7 @@
                         try {
                             if ('serviceWorker' in navigator) {
                                 await navigator.serviceWorker
-                                    .register('https://github.com/yc62897441/try_pwa_html/sw.js')
+                                    .register('https://github.com.io/yc62897441/try_pwa_html/sw.js')
                                     .then((reg) => console.log('完成 SW 設定!', reg))
                                     .catch((err) => console.log('Error!', err))
                             }
