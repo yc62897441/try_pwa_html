@@ -1,7 +1,7 @@
 {
     "name": "PWA To-Do List with Vanilla JS",
     "short_name": "To-Do List",
-    "start_url": "/",
+    "start_url": "https://yc62897441.github.io/try_pwa_html/",
     "icons": [
         {
             "src": "./src/assets/img/checklist_128.png",
