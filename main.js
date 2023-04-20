@@ -34,7 +34,7 @@
             })
         console.log('成功抓取 API 資料')
     }
-    getTodos()
+    // getTodos()
     console.log('Next')
 
     // Post New Todo 事件
