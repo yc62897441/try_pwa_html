@@ -36,14 +36,13 @@
             .then((json) => {
                 todoList = todoList.concat(json)
                 renderTodoList(todoList) // render todoList
+                console.log('成功抓取 API 資料')
             })
             .catch((err) => {
                 console.log(err)
             })
-        console.log('成功抓取 API 資料')
     }
-    // getTodos()
-    console.log('Next')
+    getTodos()
 
     // Post New Todo 事件
     function postNewTodo(value) {
@@ -63,14 +62,14 @@
                 todoInputDOM.value = '' // 清空輸入框
             })
     }
-    // 監聽 input 的 keydown(enter) 事件，觸發 postNewTodo()
     todoInputDOM.addEventListener('keydown', (event) => {
+        // 監聽 input 的 keydown(enter) 事件，觸發 postNewTodo()
         if (event.keyCode === 13 && event.target.value) {
             postNewTodo(event.target.value)
         }
     })
-    // 監聽 add Btn 的 click 事件，觸發 postNewTodo()
     addBtn.addEventListener('click', (event) => {
+        // 監聽 add Btn 的 click 事件，觸發 postNewTodo()
         if (todoInputDOM.value) {
             postNewTodo(todoInputDOM.value)
         }
@@ -113,8 +112,8 @@
                 renderTodoList(todoList)
             })
     }
-    // 監聽 toggle Btn 與 delete btn 的 click 事件，觸發 putTodo() 或 deleteTodo()
     todoListDOM.addEventListener('click', (event) => {
+        // 監聽 toggle Btn 與 delete btn 的 click 事件，觸發 putTodo() 或 deleteTodo()
         if (event.target.classList.contains('toggle-btn')) {
             putTodo(parseInt(event.target.dataset.id))
         } else if (event.target.classList.contains('delete-btn')) {
