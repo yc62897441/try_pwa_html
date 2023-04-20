@@ -42,7 +42,7 @@
                             let option = {}
 
                             // 如果不是 local 端，要加上 github page repository 的 url
-                            if (window.location.host.includes('127.0.0.1')) {
+                            if (!window.location.host.includes('127.0.0.1')) {
                                 registerUrl = '/try_pwa_html/sw.js'
                                 option = { scope: '/try_pwa_html/' }
                             }
