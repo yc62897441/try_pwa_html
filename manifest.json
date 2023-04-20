@@ -4,12 +4,12 @@
     "start_url": "/",
     "icons": [
         {
-            "src": "/src/assets/img/checklist_128.png",
+            "src": "./src/assets/img/checklist_128.png",
             "sizes": "128x128",
             "type": "image/png"
         },
         {
-            "src": "/src/assets/img/checklist.png",
+            "src": "./src/assets/img/checklist.png",
             "sizes": "512x512",
             "type": "image/png"
         }
