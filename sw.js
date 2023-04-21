@@ -67,11 +67,8 @@ self.addEventListener('activate', (event) => {
 // fetch
 // 第一次進入網站，因為 Service Worker 還沒有被註冊，而我們的 request 會在 Service Worker 註冊完成進入到 activate 狀態之前就發送，所以通常第一次進入網站不會攔截到任何的 fetch 事件。
 self.addEventListener('fetch', (event) => {
-    // console.log('now fetch!')
-    // console.log('event.request:', event.request)
-    // console.log('[ServiceWorker] Fetch', event.request.url)
-
-    // const dataUrl = 'http://localhost:3000'
+    // Cache with Network Fallback Strategies
+    // 缺點：這個策略會將所有存取到的資源添加到 cache 中，這其實對於「會經常更新的資源」是不太適合的。因為我們預設的情形下不會有網路連線的，「經常更新的資源」可能會由於來不及更新 cache 而導致還是返回舊版本 cache 中的資源。
     event.respondWith(
         caches.match(event.request).then(function (response) {
             // 如果存在 cached 過的 response 資料，則將其回傳
@@ -81,13 +78,17 @@ self.addEventListener('fetch', (event) => {
             } else {
                 return fetch(event.request)
                     .then(function (res) {
-                        return caches.open(cacheName).then(function (cache) {
+                        return caches.open(cacheDynamicName).then(function (cache) {
                             // 在 put 方法的第二個參數，我不直接使用 res 而是 res.clone() 的原因是 response object 只能被使用一次，也就是說我如果在 cache.put 使用 res 的話，下一行要 return res 時，是回傳一個空值。
                             cache.put(event.request.url, res.clone())
                             return res
                         })
                     })
-                    .catch(function (err) {})
+                    .catch(function (err) {
+                        return caches.open(cacheName).then(function (cache) {
+                            return cache.match('/offline.html')
+                        })
+                    })
             }
         })
     )
