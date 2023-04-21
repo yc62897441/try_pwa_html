@@ -39,39 +39,7 @@
             </div>
         </section>
         <section id="todoList"></section>
-
-        <script async>
-            async function init() {
-                try {
-                    async function registerServerWorker() {
-                        try {
-                            // local 端使用
-                            let registerUrl = '/sw.js'
-                            let option = {}
-
-                            // 如果不是 local 端，要加上 github page repository 的 url
-                            if (!window.location.host.includes('127.0.0.1')) {
-                                registerUrl = '/try_pwa_html/sw.js'
-                                option = { scope: '/try_pwa_html/' }
-                            }
-
-                            if ('serviceWorker' in navigator) {
-                                await navigator.serviceWorker
-                                    .register(registerUrl, option)
-                                    .then((reg) => console.log('完成 SW 設定!', reg))
-                                    .catch((err) => console.log('Error!', err))
-                            }
-                        } catch (error) {
-                            console.log('error', error)
-                        }
-                    }
-                    await registerServerWorker()
-                    console.log('Server Worker 註冊完成')
-                } catch (error) {}
-            }
-            init()
-        </script>
-
+        <script src="./initServerWorker.js"></script>
         <script src="./main.js"></script>
     </body>
 </html>
