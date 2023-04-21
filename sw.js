@@ -1,4 +1,4 @@
-const cacheName = 'todolist-v11'
+const cacheName = 'todolist-v15'
 const cacheDynamicName = 'dynamic' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
 
 let filesToCache = [
@@ -66,32 +66,52 @@ self.addEventListener('activate', (event) => {
 
 // fetch
 // 第一次進入網站，因為 Service Worker 還沒有被註冊，而我們的 request 會在 Service Worker 註冊完成進入到 activate 狀態之前就發送，所以通常第一次進入網站不會攔截到任何的 fetch 事件。
-self.addEventListener('fetch', (event) => {
-    // Cache with Network Fallback Strategies
-    // 缺點：這個策略會將所有存取到的資源添加到 cache 中，這其實對於「會經常更新的資源」是不太適合的。因為我們預設的情形下不會有網路連線的，「經常更新的資源」可能會由於來不及更新 cache 而導致還是返回舊版本 cache 中的資源。
-    event.respondWith(
-        caches.match(event.request).then(function (response) {
-            // 如果存在 cached 過的 response 資料，則將其回傳
-            // 否則，使用 fetch 把 HTTP request 真的送出，在收到 response 後存到 cache，再回傳
-            if (response) {
-                return response
-            } else {
-                return fetch(event.request)
-                    .then(function (res) {
-                        return caches.open(cacheDynamicName).then(function (cache) {
-                            // 在 put 方法的第二個參數，我不直接使用 res 而是 res.clone() 的原因是 response object 只能被使用一次，也就是說我如果在 cache.put 使用 res 的話，下一行要 return res 時，是回傳一個空值。
-                            cache.put(event.request.url, res.clone())
-                            return res
+self.addEventListener('fetch', function (event) {
+    var url = 'https://httpbin.org/get'
+
+    // 依據 request 的 url，決定使用不同的 cache 策略
+    if (event.request.url.indexOf(url) > -1) {
+        // Cache then Network Strategies
+        // 1.一開始我們直接用Javascript去存取cache中的資源，同時也透過service worker來攔截發出的fetch request。
+        // 2.若cache中有該資源，則直接會傳給用戶。另外service worker也在有網路連線的情形下去向外部獲取資源。
+        // 3.service worker成功地從網路獲取該資源。
+        // 4.接著透過dynamic caching將該資源暫存到cache中，以便下次訪問該資源，能更快速地回覆給用戶。
+        // 5.最後service worker將fetch回來的response回傳到頁面。
+        event.respondWith(
+            caches.open(cacheDynamicName).then(function (cache) {
+                return fetch(event.request).then(function (res) {
+                    cache.put(event.request, res.clone())
+                    return res
+                })
+            })
+        )
+    } else {
+        // Cache with Network Fallback Strategies
+        // 缺點：這個策略會將所有存取到的資源添加到 cache 中，這其實對於「會經常更新的資源」是不太適合的。因為我們預設的情形下不會有網路連線的，「經常更新的資源」可能會由於來不及更新 cache 而導致還是返回舊版本 cache 中的資源。
+        event.respondWith(
+            caches.match(event.request).then(function (response) {
+                // 如果存在 cached 過的 response 資料，則將其回傳
+                // 否則，使用 fetch 把 HTTP request 真的送出，在收到 response 後存到 cache，再回傳
+                if (response) {
+                    return response
+                } else {
+                    return fetch(event.request)
+                        .then(function (res) {
+                            return caches.open(cacheDynamicName).then(function (cache) {
+                                // 在 put 方法的第二個參數，我不直接使用 res 而是 res.clone() 的原因是 response object 只能被使用一次，也就是說我如果在 cache.put 使用 res 的話，下一行要 return res 時，是回傳一個空值。
+                                cache.put(event.request.url, res.clone())
+                                return res
+                            })
                         })
-                    })
-                    .catch(function (err) {
-                        return caches.open(cacheName).then(function (cache) {
-                            return cache.match('/offline.html')
+                        .catch(function (err) {
+                            return caches.open(cacheName).then(function (cache) {
+                                return cache.match('/offline.html')
+                            })
                         })
-                    })
-            }
-        })
-    )
+                }
+            })
+        )
+    }
 })
 
 // add 方法會自動會發出 request(也就是我們帶進去的參數)，並將 response 加入 cache 中。而 put 方法則是只負責將我們輸入的兩個參數(也就是 request 和 response)加入到 cache 中，它並不會真正地對外發出 request。
