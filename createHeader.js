@@ -10,4 +10,5 @@ header.innerHTML += `
     <div>
         <a href="${mainUrl}">Home</a>
         <a href="${mainUrl}help.html">Help</a>
+        <a href="${mainUrl}offline.html">Offline</a>
     </div>`

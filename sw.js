@@ -1,5 +1,5 @@
-const cacheName = 'todolist-v15'
-const cacheDynamicName = 'dynamic' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
+const cacheName = 'todolist-v17'
+const cacheDynamicName = 'dynamic-v17' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
 
 let filesToCache = [
     '/',
