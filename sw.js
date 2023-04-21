@@ -1,4 +1,6 @@
-const cacheName = 'todolist-v1'
+const cacheName = 'todolist-v11'
+const cacheDynamicName = 'dynamic' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
+
 let filesToCache = [
     '/',
     '/src/main.css',
@@ -8,9 +10,11 @@ let filesToCache = [
     '/src/assets/img/circle-outline.png',
     '/src/assets/img/close.png',
     '/index.html',
+    '/offline.html',
     '/main.js',
     '/manifest.json',
 ]
+
 // 如果不是 local 端，要加上 github page repository 的 url
 if (location?.host && !location?.host.includes('127.0.0.1')) {
     filesToCache = filesToCache.map((item) => {
@@ -25,7 +29,7 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         // 使用 CacheStorage(caches) 的 open 方法來取得 cache 物件，如果瀏覽器內原本就有儲存，則會取得原本的，如果沒有則會建立一個新的 cache 物件並取得。
         caches.open(cacheName).then((cache) => {
-            console.log('Caching app ok, cache:', cache)
+            // console.log('Caching app ok, cache:', cache)
 
             // Cache 物件的 addAll 方法，會傳入 request URL 的陣列並返回一個 Promise 物件。
             // cache.addAll 會去取得所有 URL 的 response object 並儲存到該 cache 中，把 URL 當作 key，response object 當作 value。
@@ -36,20 +40,23 @@ self.addEventListener('install', (event) => {
 
 // activate
 // 為了避免 Fetch 到的資料會一直被 Cache 住，不會自動更新，所以我們必須清除舊的 Cache。
+// 在 service worker 的 activate 階段，只有當在用戶關閉所有頁面，並打開新的應用程式後才會執行此操作，所以在這裡更新 cache 才是安全的。
 self.addEventListener('activate', (event) => {
-    console.log('now ready to handle fetches!')
+    console.log('activate...')
     event.waitUntil(
         // caches.keys() 是 caches 的 API，負責的工作是把所有的 cacheName 取出來，回傳的 cacheNames 是個 Array，是一個 Array、裡面的元素是 String。
+        // caches.keys() 會回傳一個「sub-cache 名稱所形成的字串陣列」，之後我將移除的部分寫在 Promise.all() 裡面，確保全部執行完清除 cache 的邏輯後才會回傳。
         caches.keys().then(function (cacheNames) {
             // cacheNames.map 產生 Array，map 出來的 item 去判斷是不是等於 cacheName，如果不等於就刪除 cached 檔案。
             const promiseArr = cacheNames.map(function (item) {
-                if (item !== cacheName) {
+                if (item !== cacheName && item !== cacheDynamicName) {
                     return caches.delete(item) // Delete that cached file
                 }
             })
             return Promise.all(promiseArr)
         })
     )
+    return self.clients.claim()
 })
 // 在使用 service worker 時，activate event 會在以下幾種情況下被觸發：
 // 1. 新版本的 service worker 安裝完成後，之前的 service worker 就會進入到 activate 狀態。這樣可以確保新的 service worker 確實取代了舊的 service worker。
@@ -69,18 +76,21 @@ self.addEventListener('fetch', (event) => {
         caches.match(event.request).then(function (response) {
             // 如果存在 cached 過的 response 資料，則將其回傳
             // 否則，使用 fetch 把 HTTP request 真的送出，在收到 response 後存到 cache，再回傳
-            return (
-                response ||
-                fetch(event.request).then((res) =>
-                    // 存 caches 之前，要先打開 caches.open(dataCacheName)
-                    caches.open(cacheName).then(function (cache) {
-                        console.log('fetch event.request', event.request)
-                        // cache.put(key, value) 下一次 caches.match 會對應到 event.request
-                        cache.put(event.request, res.clone())
-                        return res
+            if (response) {
+                return response
+            } else {
+                return fetch(event.request)
+                    .then(function (res) {
+                        return caches.open(cacheName).then(function (cache) {
+                            // 在 put 方法的第二個參數，我不直接使用 res 而是 res.clone() 的原因是 response object 只能被使用一次，也就是說我如果在 cache.put 使用 res 的話，下一行要 return res 時，是回傳一個空值。
+                            cache.put(event.request.url, res.clone())
+                            return res
+                        })
                     })
-                )
-            )
+                    .catch(function (err) {})
+            }
         })
     )
 })
+
+// add 方法會自動會發出 request(也就是我們帶進去的參數)，並將 response 加入 cache 中。而 put 方法則是只負責將我們輸入的兩個參數(也就是 request 和 response)加入到 cache 中，它並不會真正地對外發出 request。

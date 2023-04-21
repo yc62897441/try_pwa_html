@@ -1,3 +1,8 @@
+// 如果 window object 下沒有 Promise 的話，就將第三方所提供的 Promise 直接加入
+if (!window.Promise) {
+    window.Promise = Promise
+}
+
 // local 端使用
 let registerUrl = '/sw.js'
 let option = {}

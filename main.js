@@ -56,7 +56,6 @@
         })
             .then((res) => res.json())
             .then((json) => {
-                console.log('json', json)
                 todoList.push(json)
                 renderTodoList(todoList)
                 todoInputDOM.value = '' // 清空輸入框
