@@ -11,8 +11,8 @@ let filesToCache = [
     '/src/assets/img/close.png',
     '/index.html',
     '/offline.html',
-    '/main.js',
-    '/createHeader.js',
+    '/src/helpers/main.js',
+    '/src/helpers/createHeader.js',
     '/manifest.json',
 ]
 
