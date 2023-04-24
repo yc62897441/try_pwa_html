@@ -1,22 +1,26 @@
 const cacheName = 'todolist-v18'
 const cacheDynamicName = 'dynamic-v18' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
 
-// TODO: 切分出 global files + home page files 兩個 array 再 concat 起來
-let filesToCache = [
+const globalFilesToCache = [
     '/',
     '/index.html',
     '/manifest.json',
     '/src/main.css',
-    '/src/assets/img/check.png',
     '/src/assets/img/checklist.png',
-    '/src/assets/img/circle-outline.png',
-    '/src/assets/img/close.png',
-    '/src/assets/img/plus.png',
     '/src/helpers/main.js',
     '/src/helpers/createHeader.js',
     '/src/helpers/initServerWorker.js',
     '/src/pages/offline.html',
 ]
+
+const homepageFilesToCache = [
+    '/src/assets/img/check.png',
+    '/src/assets/img/circle-outline.png',
+    '/src/assets/img/close.png',
+    '/src/assets/img/plus.png',
+]
+
+let filesToCache = globalFilesToCache.concat(homepageFilesToCache)
 
 // 如果不是 local 端，要加上 github page repository 的 url
 if (location?.host && !location?.host.includes('127.0.0.1')) {
