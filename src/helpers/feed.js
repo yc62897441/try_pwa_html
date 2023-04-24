@@ -40,7 +40,7 @@ fetch(url)
     })
     .then(function (data) {
         networkDataReceived = true
-        console.log('From Web', data)
+        // console.log('From Web', data)
         clearCards()
         createCard()
     })
@@ -54,7 +54,7 @@ if ('caches' in window) {
             }
         })
         .then(function (data) {
-            console.log('From Cache', data)
+            // console.log('From Cache', data)
             if (!networkDataReceived) {
                 clearCards()
                 createCard()

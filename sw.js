@@ -1,5 +1,5 @@
-const cacheName = 'todolist-v19'
-const cacheDynamicName = 'dynamic-v19' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
+const cacheName = 'todolist-v20'
+const cacheDynamicName = 'dynamic-v20' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
 
 // 初次進入頁面 or 進入首頁時，需要存到 server worker 的 files 清單
 const globalFilesToCache = [
@@ -8,6 +8,7 @@ const globalFilesToCache = [
     '/manifest.json',
     '/src/main.css',
     '/src/assets/img/checklist.png',
+    '/src/helpers/offline.js',
     '/src/helpers/main.js',
     '/src/helpers/createHeader.js',
     '/src/helpers/initServerWorker.js',
@@ -78,8 +79,6 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', function (event) {
     // 依據 request 的 url，決定使用不同的 cache 策略
     if (CacheThenNetworkFiles.indexOf(event.request.url) > -1) {
-        console.log('Cache then Network Strategies', event.request)
-
         // Cache then Network Strategies
         // 1.一開始我們直接用Javascript去存取cache中的資源，同時也透過service worker來攔截發出的fetch request。
         // 2.若cache中有該資源，則直接會傳給用戶。另外service worker也在有網路連線的情形下去向外部獲取資源。

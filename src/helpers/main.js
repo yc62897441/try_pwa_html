@@ -69,6 +69,7 @@
             })
     }
 
+    // TODO: 離線 post、put、delete 的 server worker
     // Post New Todo 事件
     function postNewTodo(value) {
         const postData = { desc: value, isComplete: false }

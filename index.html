@@ -20,7 +20,6 @@
         <link rel="apple-touch-icon" href="/src/images/icons/apple-icon-512x512.png" />
     </head>
 
-    <!-- TODO: 增加「增加離線使用中」的標示(用 position fixed 來做) -->
     <body>
         <header class="header">
             <img class="logo" src="./src/assets/img/checklist.png" alt="" />
@@ -78,5 +77,9 @@
 
         <!-- 建立 header nav 連結 -->
         <script src="./src/helpers/createHeader.js"></script>
+
+        <!-- TODO: 增加「增加離線使用中」的標示(用 position fixed 來做) -->
+        <!-- 連線/離線偵測，並顯示「離線中」標示 -->
+        <script src="./src/helpers/offline.js"></script>
     </body>
 </html>
