@@ -1,5 +1,5 @@
-const cacheName = 'todolist-v17'
-const cacheDynamicName = 'dynamic-v17' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
+const cacheName = 'todolist-v18'
+const cacheDynamicName = 'dynamic-v18' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
 
 let filesToCache = [
     '/',
@@ -12,6 +12,7 @@ let filesToCache = [
     '/index.html',
     '/offline.html',
     '/main.js',
+    '/createHeader.js',
     '/manifest.json',
 ]
 
@@ -98,12 +99,15 @@ self.addEventListener('fetch', function (event) {
                     return fetch(event.request)
                         .then(function (res) {
                             return caches.open(cacheDynamicName).then(function (cache) {
+                                console.log('res', event.request, res)
+
                                 // 在 put 方法的第二個參數，我不直接使用 res 而是 res.clone() 的原因是 response object 只能被使用一次，也就是說我如果在 cache.put 使用 res 的話，下一行要 return res 時，是回傳一個空值。
                                 cache.put(event.request.url, res.clone())
                                 return res
                             })
                         })
                         .catch(function (err) {
+                            console.log('err', event.request, err)
                             return caches.open(cacheName).then(function (cache) {
                                 return cache.match('/offline.html')
                             })

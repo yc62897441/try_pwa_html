@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>PWA To-Do List with Vanilla JS</title>
+
+        <!-- 傳到 github page 要加的 -->
+        <link rel="canonical" href="https://yc62897441.github.io/try_pwa_html/" />
+
+        <link rel="stylesheet" href="./src/main.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans" />
+        <link rel="manifest" href="./manifest.json" />
+
+        <!-- Safari -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="#CC7412" />
+        <meta name="apple-mobile-web-app-title" content="To-Do List" />
+        <link rel="apple-touch-icon" href="/src/images/icons/apple-icon-60x60.png" />
+        <link rel="apple-touch-icon" href="/src/images/icons/apple-icon-128x128.png" />
+        <link rel="apple-touch-icon" href="/src/images/icons/apple-icon-512x512.png" />
+    </head>
+    <body>
+        <header class="header">
+            <img class="logo" src="./src/assets/img/checklist.png" alt="" />
+            <div class="unfinished">
+                <span class="count">0</span>
+                <span>個未完成</span>
+            </div>
+        </header>
+        <section>
+            <h1>help</h1>
+        </section>
+
+        <script src="./initServerWorker.js"></script>
+
+        <!-- 使用 componentHandler -->
+        <script
+            src="https://code.getmdl.io/1.1.3/material.min.js"
+            asp-fallback-src="lib/material-design-lite/material.min.js"
+            asp-fallback-test="window.componentHandler"
+        ></script>
+
+        <!-- 建立 header nav 連結 -->
+        <script src="./createHeader.js"></script>
+    </body>
+</html>
