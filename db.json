@@ -16,7 +16,7 @@
   "todolist": [
     {
       "id": 0,
-      "isComplete": true,
+      "isComplete": false,
       "desc": "...0"
     },
     {

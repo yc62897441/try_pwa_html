@@ -28,21 +28,46 @@
         todoListDOM.innerHTML = html
     }
 
+    // 使用 Cache then Network Strategies
+    // 1.一開始我們直接用Javascript去存取cache中的資源，同時也透過service worker來攔截發出的fetch request。
+    // 2.若cache中有該資源，則直接會傳給用戶。另外service worker也在有網路連線的情形下去向外部獲取資源。
+    // 3.service worker成功地從網路獲取該資源。
+    // 4.接著透過dynamic caching將該資源暫存到cache中，以便下次訪問該資源，能更快速地回覆給用戶。
+    // 5.最後service worker將fetch回來的response回傳到頁面。
+    let networkDataReceived = false
     // 取得待辦事項清單（GET）
     function getTodos() {
-        console.log('發送 API 抓取資料')
+        // console.log('發送 API 抓取資料')
         fetch('http://localhost:3000/todolist')
             .then((res) => res.json())
             .then((json) => {
+                networkDataReceived = true
+                todoList = []
                 todoList = todoList.concat(json)
                 renderTodoList(todoList) // render todoList
-                console.log('成功抓取 API 資料')
+                // console.log('成功抓取 API 資料')
             })
             .catch((err) => {
                 console.log(err)
             })
     }
     getTodos()
+    if ('caches' in window) {
+        caches
+            .match('http://localhost:3000/todolist')
+            .then(function (response) {
+                if (response) {
+                    return response.json()
+                }
+            })
+            .then(function (data) {
+                if (!networkDataReceived) {
+                    todoList = []
+                    todoList = todoList.concat(data)
+                    renderTodoList(todoList)
+                }
+            })
+    }
 
     // Post New Todo 事件
     function postNewTodo(value) {

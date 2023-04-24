@@ -1,6 +1,7 @@
-const cacheName = 'todolist-v18'
-const cacheDynamicName = 'dynamic-v18' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
+const cacheName = 'todolist-v19'
+const cacheDynamicName = 'dynamic-v19' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
 
+// 初次進入頁面 or 進入首頁時，需要存到 server worker 的 files 清單
 const globalFilesToCache = [
     '/',
     '/index.html',
@@ -12,15 +13,16 @@ const globalFilesToCache = [
     '/src/helpers/initServerWorker.js',
     '/src/pages/offline.html',
 ]
-
 const homepageFilesToCache = [
     '/src/assets/img/check.png',
     '/src/assets/img/circle-outline.png',
     '/src/assets/img/close.png',
     '/src/assets/img/plus.png',
 ]
+const filesToCache = globalFilesToCache.concat(homepageFilesToCache)
 
-let filesToCache = globalFilesToCache.concat(homepageFilesToCache)
+// 使用 Cache then Network Strategies 策略進行快取，資源清單
+const CacheThenNetworkFiles = ['https://httpbin.org/get', 'http://localhost:3000/todolist']
 
 // 如果不是 local 端，要加上 github page repository 的 url
 if (location?.host && !location?.host.includes('127.0.0.1')) {
@@ -74,10 +76,10 @@ self.addEventListener('activate', (event) => {
 // fetch
 // 第一次進入網站，因為 Service Worker 還沒有被註冊，而我們的 request 會在 Service Worker 註冊完成進入到 activate 狀態之前就發送，所以通常第一次進入網站不會攔截到任何的 fetch 事件。
 self.addEventListener('fetch', function (event) {
-    var url = 'https://httpbin.org/get'
-
     // 依據 request 的 url，決定使用不同的 cache 策略
-    if (event.request.url.indexOf(url) > -1) {
+    if (CacheThenNetworkFiles.indexOf(event.request.url) > -1) {
+        console.log('Cache then Network Strategies', event.request)
+
         // Cache then Network Strategies
         // 1.一開始我們直接用Javascript去存取cache中的資源，同時也透過service worker來攔截發出的fetch request。
         // 2.若cache中有該資源，則直接會傳給用戶。另外service worker也在有網路連線的情形下去向外部獲取資源。
@@ -105,15 +107,12 @@ self.addEventListener('fetch', function (event) {
                     return fetch(event.request)
                         .then(function (res) {
                             return caches.open(cacheDynamicName).then(function (cache) {
-                                console.log('res', event.request, res)
-
                                 // 在 put 方法的第二個參數，我不直接使用 res 而是 res.clone() 的原因是 response object 只能被使用一次，也就是說我如果在 cache.put 使用 res 的話，下一行要 return res 時，是回傳一個空值。
                                 cache.put(event.request.url, res.clone())
                                 return res
                             })
                         })
                         .catch(function (err) {
-                            console.log('err', event.request, err)
                             return caches.open(cacheName).then(function (cache) {
                                 return cache.match('/src/pages/offline.html')
                             })
