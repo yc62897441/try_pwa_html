@@ -6,9 +6,8 @@ if (location?.host && !location?.host.includes('127.0.0.1')) {
 }
 const header = document.querySelector('.header')
 
-// FIXME: 希望在沒有網路連線且第一次拜訪某頁面的話，可回傳offline頁面給用戶。FIXME: 目前沒有 work
 header.innerHTML += `
     <div>
         <a href="${mainUrl}">Home</a>
-        <a href="${mainUrl}help.html">Help</a>
+        <a href="${mainUrl}src/pages/help.html">Help</a>
     </div>`

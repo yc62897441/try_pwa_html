@@ -1,19 +1,21 @@
 const cacheName = 'todolist-v18'
 const cacheDynamicName = 'dynamic-v18' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
 
+// TODO: 切分出 global files + home page files 兩個 array 再 concat 起來
 let filesToCache = [
     '/',
+    '/index.html',
+    '/manifest.json',
     '/src/main.css',
-    '/src/assets/img/checklist.png',
-    '/src/assets/img/plus.png',
     '/src/assets/img/check.png',
+    '/src/assets/img/checklist.png',
     '/src/assets/img/circle-outline.png',
     '/src/assets/img/close.png',
-    '/index.html',
-    '/offline.html',
+    '/src/assets/img/plus.png',
     '/src/helpers/main.js',
     '/src/helpers/createHeader.js',
-    '/manifest.json',
+    '/src/helpers/initServerWorker.js',
+    '/src/pages/offline.html',
 ]
 
 // 如果不是 local 端，要加上 github page repository 的 url
@@ -109,7 +111,7 @@ self.addEventListener('fetch', function (event) {
                         .catch(function (err) {
                             console.log('err', event.request, err)
                             return caches.open(cacheName).then(function (cache) {
-                                return cache.match('/offline.html')
+                                return cache.match('/src/pages/offline.html')
                             })
                         })
                 }
