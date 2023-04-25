@@ -11,6 +11,7 @@
 
     --font-color: #000000;
     --font-color-main: #FCFDFD;
+    --font-color-contrast: #10772C;
 
     /* --logo-url: url("https://raw.githubusercontent.com/ALPHACamp/WFE-data-table/0f97f3113bff18353154b8644eb0b31fff2a3bef/icons/logo.svg");
     --darkmode-toggle-url: url("https://raw.githubusercontent.com/ALPHACamp/WFE-data-table/0f97f3113bff18353154b8644eb0b31fff2a3bef/icons/darkmode-on.svg");  */
@@ -37,11 +38,21 @@ html, body {
 }
 .unfinished {
     margin-left: 10px;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 600;
 }
 .count {
     color: var(--bg-color-contrast);
+}
+.header a {
+    margin-left: 10px;
+    font-size: 24px;
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--font-color-contrast);
+}
+.header a:hover {
+    text-decoration: underline;
 }
 
 /* list */
@@ -112,10 +123,18 @@ section {
     .header {
         padding: 30px;
     }
+    .logo {
+        width: 75px;
+        height: 75px;
+    }
     .unfinished {
         margin-left: 20px;
-        font-size: 24px;
+        font-size: 30px;
         font-weight: 600;
+    }
+    .header a {
+        margin-left: 20px;
+        font-size: 30px;
     }
 
     /* list */
@@ -126,6 +145,12 @@ section {
         margin-bottom: 15px;
     }
     .input {
-        width: 300px;
+        width: 450px;
     }
+    .input, 
+    .content {
+    height: 40px;
+    padding: 0 15px;
+    font-size: 30px;
+}
 }

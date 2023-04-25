@@ -1,22 +1,40 @@
-var sharedMomentsArea = document.querySelector('#shared-moments')
+const sharedMomentsArea = document.querySelector('#shared-moments')
+sharedMomentsArea.style.width = '100%'
+
 function createCard() {
-    var cardWrapper = document.createElement('div')
+    const cardWrapper = document.createElement('div')
     cardWrapper.className = 'shared-moment-card mdl-card mdl-shadow--2dp'
-    var cardTitle = document.createElement('div')
+    cardWrapper.style.width = '100%'
+    cardWrapper.style.maxWidth = '576px'
+    cardWrapper.style.margin = '10px 0'
+    cardWrapper.style.borderRadius = '10px'
+
+    const cardTitle = document.createElement('div')
     cardTitle.className = 'mdl-card__title'
-    // cardTitle.style.backgroundImage = 'url("./src/assets/img/sf-boat.jpg")'
+    cardTitle.style.display = 'flex'
+    cardTitle.style.flexDirection = 'row'
+    cardTitle.style.justifyContent = 'center'
+    cardTitle.style.alignItems = 'center'
+    cardTitle.style.backgroundImage = 'url("./src/assets/img/pexels-lukas-rodriguez-3618162.jpg")'
     cardTitle.style.backgroundSize = 'cover'
+    cardTitle.style.borderRadius = '10px'
     cardTitle.style.height = '180px'
+    cardTitle.style.color = '#FFFFFF'
+
     cardWrapper.appendChild(cardTitle)
-    var cardTitleTextElement = document.createElement('h2')
+
+    const cardTitleTextElement = document.createElement('h2')
     cardTitleTextElement.className = 'mdl-card__title-text'
     cardTitleTextElement.textContent = '台北板橋一日遊'
+    cardTitleTextElement.style.margin = '0'
     cardTitle.appendChild(cardTitleTextElement)
-    var cardSupportingText = document.createElement('div')
-    cardSupportingText.className = 'mdl-card__supporting-text'
-    cardSupportingText.textContent = '在台北板橋'
-    cardSupportingText.style.textAlign = 'center'
-    cardWrapper.appendChild(cardSupportingText)
+
+    // const cardSupportingText = document.createElement('div')
+    // cardSupportingText.className = 'mdl-card__supporting-text'
+    // cardSupportingText.textContent = '在台北板橋'
+    // cardSupportingText.style.textAlign = 'center'
+    // cardWrapper.appendChild(cardSupportingText)
+
     componentHandler.upgradeElement(cardWrapper)
     sharedMomentsArea.appendChild(cardWrapper)
 }
