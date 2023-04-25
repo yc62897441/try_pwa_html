@@ -1,3 +1,4 @@
+// 引入 indexed DB 需要使用的第三方套件 + 自定義函式
 importScripts('./src/helpers/umd.js')
 importScripts('./src/helpers/utility.js')
 
@@ -99,6 +100,7 @@ self.addEventListener('fetch', function (event) {
             })
         )
     } else if (
+        // Cache then Network Strategies
         // 存到 indexed DB。
         event.request.url.indexOf('https://trip-diary-f56de.firebaseio.com/posts.json') > -1
     ) {

@@ -61,3 +61,32 @@ if ('caches' in window) {
             }
         })
 }
+
+// 使用 Cache then Network Strategies
+// 抓取資料，這個 event.request.url 取得的資料會被存到 indexed DB
+// 1. 一開始去 indexed DB 存取資源，同時也透過 service worker 來攔截發出的 fetch request。
+// 2. 若 indexed DB 中有該資源，則直接會傳給用戶。另外 service worker 也在有網路連線的情形下去向外部獲取資源。
+// 3. service worker 成功地從網路獲取該資源。
+// 4. 接著將該資源暫存到 indexed DB 中，以便下次訪問該資源，能更快速地回覆給用戶。
+// 5. 最後 service worker 將 fetch 回來的 response 回傳到頁面。
+let tripDiaryNetworkDataReceived = false
+fetch('https://trip-diary-f56de.firebaseio.com/posts.json')
+    .then((res) => res.json())
+    .then((json) => {
+        tripDiaryNetworkDataReceived = true
+        // render 畫面
+        // ...
+        return json
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+if ('indexedDB' in window) {
+    readAllData('posts').then(function (data) {
+        if (!tripDiaryNetworkDataReceived) {
+            // console.log('From IndexedDB', data)
+            // render 畫面
+            // ...
+        }
+    })
+}

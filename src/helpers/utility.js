@@ -22,3 +22,12 @@ function writeData(objectStore, data) {
         return tx.done
     })
 }
+
+// 取得 indexed DB 中的資料
+function readAllData(objectStore) {
+    return dbPromise.then(function (db) {
+        const tx = db.transaction(objectStore, 'readonly')
+        const store = tx.objectStore(objectStore)
+        return store.getAll()
+    })
+}

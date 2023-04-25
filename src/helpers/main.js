@@ -145,14 +145,4 @@
             deleteTodo(parseInt(event.target.dataset.id))
         }
     })
-
-    // 抓取資料，這個 event.request.url 取得的資料會被存到 indexed DB
-    fetch('https://trip-diary-f56de.firebaseio.com/posts.json')
-        .then((res) => res.json())
-        .then((json) => {
-            return json
-        })
-        .catch((err) => {
-            console.log(err)
-        })
 })(window, document)
