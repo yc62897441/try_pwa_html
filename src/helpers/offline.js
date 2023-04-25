@@ -42,6 +42,6 @@ function show() {
 }
 show()
 setTimeout(() => {
-    console.log('setTime out')
+    // console.log('setTime out')
     show()
 }, 1000)

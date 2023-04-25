@@ -1,3 +1,6 @@
+importScripts('./src/helpers/umd.js')
+importScripts('./src/helpers/utility.js')
+
 const cacheName = 'todolist-v20'
 const cacheDynamicName = 'dynamic-v20' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
 
@@ -12,6 +15,8 @@ const globalFilesToCache = [
     '/src/helpers/main.js',
     '/src/helpers/createHeader.js',
     '/src/helpers/initServerWorker.js',
+    '/src/helpers/umd.js',
+    '/src/helpers/utility.js',
     '/src/pages/offline.html',
 ]
 const homepageFilesToCache = [
@@ -91,6 +96,21 @@ self.addEventListener('fetch', function (event) {
                     cache.put(event.request, res.clone())
                     return res
                 })
+            })
+        )
+    } else if (
+        // 存到 indexed DB。
+        event.request.url.indexOf('https://trip-diary-f56de.firebaseio.com/posts.json') > -1
+    ) {
+        event.respondWith(
+            fetch(event.request).then(function (res) {
+                const clonedRes = res.clone()
+                clonedRes.json().then(function (data) {
+                    for (let key in data) {
+                        writeData('posts', data[key])
+                    }
+                })
+                return res
             })
         )
     } else {
