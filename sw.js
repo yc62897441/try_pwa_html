@@ -108,9 +108,16 @@ self.addEventListener('fetch', function (event) {
             fetch(event.request).then(function (res) {
                 const clonedRes = res.clone()
                 clonedRes.json().then(function (data) {
-                    for (let key in data) {
-                        writeData('posts', data[key])
-                    }
+                    // 先全部清除 indexed DB，之後再將最新的資料儲存到 indexed DB
+                    clearAllData('posts')
+                        .then(function () {
+                            return data
+                        })
+                        .then(function (data) {
+                            for (let key in data) {
+                                writeData('posts', data[key])
+                            }
+                        })
                 })
                 return res
             })

@@ -23,11 +23,21 @@ function writeData(objectStore, data) {
     })
 }
 
-// 取得 indexed DB 中的資料
+// 取得所有 indexed DB 中的資料
 function readAllData(objectStore) {
     return dbPromise.then(function (db) {
         const tx = db.transaction(objectStore, 'readonly')
         const store = tx.objectStore(objectStore)
         return store.getAll()
+    })
+}
+
+// 刪除所有 indexed DB 中的資料
+function clearAllData(objectStore) {
+    return dbPromise.then(function (db) {
+        const tx = db.transaction(objectStore, 'readwrite')
+        const store = tx.objectStore(objectStore)
+        store.clear() // 全部清除indexedDB中的資料
+        return tx.done
     })
 }
