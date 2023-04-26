@@ -68,6 +68,30 @@
             <div id="shared-moments"></div>
         </section>
 
+        <section>
+            <h1>測試 img srcset 屬性</h1>
+            <ol>
+                <li>依據讀取網頁時當下裝置的 viewport px 去取得對應的圖片。</li>
+                <li>
+                    以下設定分別對應 viewport 寬度 &lt;640px &lt;1280px &lt;1600px 所要載入的圖片<br />
+                    src="./src/assets/img/plus.png"<br />
+                    srcset=" ./src/assets/img/plus.png 640w,<br />
+                    ./src/assets/img/checklist.png 1280w,<br />
+                    ./src/assets/img/pexels-stephan-seeber-1261728.jpg 1600w "
+                </li>
+            </ol>
+            <img
+                class="test-srcset"
+                src="./src/assets/img/plus.png"
+                srcset="
+                    ./src/assets/img/plus.png                           640w,
+                    ./src/assets/img/checklist.png                     1280w,
+                    ./src/assets/img/pexels-stephan-seeber-1261728.jpg 1600w
+                "
+                alt="Explore the City"
+            />
+        </section>
+
         <script src="./src/helpers/initServerWorker.js"></script>
         <script src="./src/helpers/main.js"></script>
 
