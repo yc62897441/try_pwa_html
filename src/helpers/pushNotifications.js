@@ -11,12 +11,13 @@ if ('Notification' in window) {
 function askForNotificationPermission() {
     Notification.requestPermission(function (result) {
         // 這裡 result 只會有兩種結果：一個是用戶允許(granted)，另一個是用戶封鎖(denied)
-        console.log('User Choice', result)
-        if (result !== 'granted') {
-            console.log('No notification permission granted!')
+        if (result === 'denied') {
             window.alert('No notification permission granted!')
-        } else {
+        } else if (result === 'granted') {
+            window.alert(`result: ${result}`)
             displayConfirmNotification()
+        } else {
+            window.alert(`result: ${result}`)
         }
     })
 }
@@ -30,11 +31,14 @@ function askForNotificationPermission() {
 
 function displayConfirmNotification() {
     if ('serviceWorker' in navigator) {
+        window.alert('serviceWorker in navigator')
         const options = {
             body: '您已成功訂閱我們的推播服務!',
         }
         navigator.serviceWorker.ready.then(function (sw) {
             sw.showNotification('成功訂閱!! (from Service Worker)', options)
         })
+    } else {
+        window.alert('serviceWorker nottttttttttt in navigator')
     }
 }
