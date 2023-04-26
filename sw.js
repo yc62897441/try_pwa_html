@@ -156,35 +156,35 @@ self.addEventListener('fetch', function (event) {
 // add 方法會自動會發出 request(也就是我們帶進去的參數)，並將 response 加入 cache 中。而 put 方法則是只負責將我們輸入的兩個參數(也就是 request 和 response)加入到 cache 中，它並不會真正地對外發出 request。
 
 // 處理 post request
-self.addEventListener('sync', function (event) {
-    // 處理註冊到 SyncManager 的事件
-    if (event.tag === 'sync-new-post') {
-        event.waitUntil(
-            // 把 indexed DB sync-posts 資料表中的資料拿出來，發送 post request
-            readAllData('sync-posts').then(function (DBdata) {
-                for (let data of DBdata) {
-                    const postData = {}
-                    Object.keys(data.postData).forEach((key) => {
-                        postData[key] = data.postData[key]
-                    })
-                    fetch('https://trip-diary-f56de.firebaseio.com/posts.json', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json',
-                        },
-                        body: JSON.stringify(postData),
-                    })
-                        .then(function (res) {
-                            if (res.ok) {
-                                deleteItemFromData('sync-posts', data.key)
-                            }
-                        })
-                        .catch(function (err) {
-                            console.log('Error while sending data', err)
-                        })
-                }
-            })
-        )
-    }
-})
+// self.addEventListener('sync', function (event) {
+//     // 處理註冊到 SyncManager 的事件
+//     if (event.tag === 'sync-new-post') {
+//         event.waitUntil(
+//             // 把 indexed DB sync-posts 資料表中的資料拿出來，發送 post request
+//             readAllData('sync-posts').then(function (DBdata) {
+//                 for (let data of DBdata) {
+//                     const postData = {}
+//                     Object.keys(data.postData).forEach((key) => {
+//                         postData[key] = data.postData[key]
+//                     })
+//                     fetch('https://trip-diary-f56de.firebaseio.com/posts.json', {
+//                         method: 'POST',
+//                         headers: {
+//                             'Content-Type': 'application/json',
+//                             Accept: 'application/json',
+//                         },
+//                         body: JSON.stringify(postData),
+//                     })
+//                         .then(function (res) {
+//                             if (res.ok) {
+//                                 deleteItemFromData('sync-posts', data.key)
+//                             }
+//                         })
+//                         .catch(function (err) {
+//                             console.log('Error while sending data', err)
+//                         })
+//                 }
+//             })
+//         )
+//     }
+// })
