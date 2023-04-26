@@ -22,23 +22,23 @@ function askForNotificationPermission() {
     })
 }
 
-function displayConfirmNotification() {
-    const options = {
-        body: '您已成功訂閱我們的推播服務!',
-    }
-    new Notification('成功訂閱!!', options)
-}
-
 // function displayConfirmNotification() {
-//     if ('serviceWorker' in navigator) {
-//         const options = {
-//             body: '您已成功訂閱我們的推播服務!',
-//         }
-//         navigator.serviceWorker.ready.then(function (sw) {
-//             // showNotification(title, options) The title that must be shown within the notification
-//             sw.showNotification('成功訂閱!! (from Service Worker)', options)
-//         })
-//     } else {
-//         window.alert('serviceWorker nottttttttttt in navigator')
+//     const options = {
+//         body: '您已成功訂閱我們的推播服務!',
 //     }
+//     new Notification('成功訂閱!!', options)
 // }
+
+function displayConfirmNotification() {
+    if ('serviceWorker' in navigator) {
+        const options = {
+            body: '您已成功訂閱我們的推播服務!',
+        }
+        navigator.serviceWorker.ready.then((sw) => {
+            // showNotification(title, options) The title that must be shown within the notification
+            sw.showNotification('成功訂閱!! (from Service Worker)', options)
+        })
+    } else {
+        window.alert('serviceWorker nottttttttttt in navigator')
+    }
+}
