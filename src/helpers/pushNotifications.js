@@ -31,8 +31,22 @@ function askForNotificationPermission() {
 
 function displayConfirmNotification() {
     if ('serviceWorker' in navigator) {
+        // https://ithelp.ithome.com.tw/articles/10225598
+        // 增加 showNotification options 的選項設定 
         const options = {
             body: '您已成功訂閱我們的推播服務!',
+            icon: './src/assets/img/apple-icon-128x128.png',
+            image: './src/assets/img/pexels-stephan-seeber-1261728-640.jpg',
+            dir: 'ltr',
+            lang: 'zh-TW',   // BCP 47
+            vibrate: [100, 50, 200],
+            badge: './src/assets/img/plus.png',
+            tag: 'confirm-notification',
+            renotify: true,
+            actions: [
+                { action: 'confirm', title: '收到', icon: './src/assets/img/circle-outline.png' },
+                { action: 'cancel', title: '取消', icon: './src/assets/img/close.png' }
+            ]
         }
         navigator.serviceWorker.ready.then((sw) => {
             // showNotification(title, options) The title that must be shown within the notification
