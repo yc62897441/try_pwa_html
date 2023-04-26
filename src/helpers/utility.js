@@ -10,6 +10,12 @@ const dbPromise = idb.openDB('post-store', 1, {
             // 第二個參數是要去設定在這個object store中，我們要以哪個欄位做為key值。
             db.createObjectStore('posts', { keyPath: 'id' })
         }
+
+        // 用來儲存 post request 資訊的資料表，如果處於正連線狀態、或從離線切換到連線狀態時，會把儲存的資料拿出來發送 post request
+        if (!db.objectStoreNames.contains('sync-posts')) {
+            // 在 post-store 資料庫中新增一個「名為 sync-posts 的 object store」
+            db.createObjectStore('sync-posts', { keyPath: 'key' })
+        }
     },
 })
 
@@ -38,6 +44,16 @@ function clearAllData(objectStore) {
         const tx = db.transaction(objectStore, 'readwrite')
         const store = tx.objectStore(objectStore)
         store.clear() // 全部清除indexedDB中的資料
+        return tx.done
+    })
+}
+
+// 刪除 indexed DB 中的單筆資料
+function deleteItemFromData(objectStore, key) {
+    dbPromise.then(function (db) {
+        const tx = db.transaction(objectStore, 'readwrite')
+        const store = tx.objectStore(objectStore)
+        store.delete(key)
         return tx.done
     })
 }

@@ -92,6 +92,31 @@
             />
         </section>
 
+        <section>
+            <h1>測試背景同步(Background Sync)</h1>
+            <ol>
+                <li>監聽表單，處理 post request</li>
+                <li>
+                    如果支援 serviceWorker 與 SyncManager，則先把 post request 的資訊存到 indexed
+                    DB。<br /><br />
+                    接著使用 ServiceWorkerRegistration interface 的 sync 屬性會返回引用 SyncManager interface 的接口，然後使用 SyncManager.register() 註冊一個 synchronization event，該事件在網路可連線時會在 service worker 觸發一個 sync event。<br /><br />
+                    之後在 sw.js 監聽 sync 事件 self.addEventListener('sync', ...)，此時如果正處於連線狀態、或從離線切換到連線狀態時，就會觸發事件的 cb function 會把 indexed DB 中的資訊取出來發送 post
+                </li>
+                <li>request。 如果不支援 serviceWorker 與 SyncManager，則直接發送 post request</li>
+            </ol>
+            <form id="background-sync-form" action="submit" method="post">
+                <div>
+                    <label for="input-account">帳號</label>
+                    <input id="input-account" type="text" placeholder="帳號" />
+                </div>
+                <div>
+                    <label for="input-password">密碼</label>
+                    <input id="input-password" type="password" placeholder="密碼" />
+                </div>
+                <button type="submit">submit</button>
+            </form>
+        </section>
+
         <script src="./src/helpers/initServerWorker.js"></script>
         <script src="./src/helpers/main.js"></script>
 
@@ -104,6 +129,7 @@
 
         <!-- 操作邏輯 -->
         <script src="./src/helpers/feed.js"></script>
+        <script src="./src/helpers/post.js"></script>
 
         <!-- 建立 header nav 連結 -->
         <script src="./src/helpers/createHeader.js"></script>

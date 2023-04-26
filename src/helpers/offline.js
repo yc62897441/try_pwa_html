@@ -1,11 +1,11 @@
 window.addEventListener('online', function () {
     console.log('now online')
-    show()
+    // show()
 })
 
 window.addEventListener('offline', function () {
     console.log('now offline')
-    show()
+    // show()
 })
 
 // window.addEventListener('onhashchange', function () {
@@ -40,8 +40,4 @@ function show() {
         clear()
     }
 }
-show()
-setTimeout(() => {
-    // console.log('setTime out')
-    show()
-}, 1000)
+// show()
