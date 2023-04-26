@@ -160,3 +160,18 @@ section {
     /* width: 300px; */
     width: 100%;
 }
+
+/* Push Notifications 的訂閱按鈕，一開始預設隱藏，確認瀏覽器有支援 Notification API 後再顯示 */
+.enable-notifications {
+    display: none;
+    min-height: 80px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 36px;
+    font-weight: 600;
+    background-color: var(--bg-color-main);
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+

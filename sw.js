@@ -16,6 +16,8 @@ const globalFilesToCache = [
     '/src/helpers/main.js',
     '/src/helpers/createHeader.js',
     '/src/helpers/initServerWorker.js',
+    '/src/helpers/post.js',
+    '/src/helpers/pushNotifications.js',
     '/src/helpers/umd.js',
     '/src/helpers/utility.js',
     '/src/pages/offline.html',

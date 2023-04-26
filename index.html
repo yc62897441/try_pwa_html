@@ -99,8 +99,12 @@
                 <li>
                     如果支援 serviceWorker 與 SyncManager，則先把 post request 的資訊存到 indexed
                     DB。<br /><br />
-                    接著使用 ServiceWorkerRegistration interface 的 sync 屬性會返回引用 SyncManager interface 的接口，然後使用 SyncManager.register() 註冊一個 synchronization event，該事件在網路可連線時會在 service worker 觸發一個 sync event。<br /><br />
-                    之後在 sw.js 監聽 sync 事件 self.addEventListener('sync', ...)，此時如果正處於連線狀態、或從離線切換到連線狀態時，就會觸發事件的 cb function 會把 indexed DB 中的資訊取出來發送 post
+                    接著使用 ServiceWorkerRegistration interface 的 sync 屬性會返回引用 SyncManager
+                    interface 的接口，然後使用 SyncManager.register() 註冊一個 synchronization
+                    event，該事件在網路可連線時會在 service worker 觸發一個 sync event。<br /><br />
+                    之後在 sw.js 監聽 sync 事件 self.addEventListener('sync',
+                    ...)，此時如果正處於連線狀態、或從離線切換到連線狀態時，就會觸發事件的 cb
+                    function 會把 indexed DB 中的資訊取出來發送 post
                 </li>
                 <li>request。 如果不支援 serviceWorker 與 SyncManager，則直接發送 post request</li>
             </ol>
@@ -115,6 +119,11 @@
                 </div>
                 <button type="submit">submit</button>
             </form>
+        </section>
+
+        <section>
+            <h1>Push Notifications</h1>
+            <button class="enable-notifications">開啟訂閱通知</button>
         </section>
 
         <script src="./src/helpers/initServerWorker.js"></script>
@@ -137,5 +146,7 @@
         <!-- TODO: 增加「增加離線使用中」的標示(用 position fixed 來做) -->
         <!-- 連線/離線偵測，並顯示「離線中」標示 -->
         <script src="./src/helpers/offline.js"></script>
+
+        <script src="./src/helpers/pushNotifications.js"></script>
     </body>
 </html>
