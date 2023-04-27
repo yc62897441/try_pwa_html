@@ -2,21 +2,24 @@
     box-sizing: border-box;
     font-family: 'Noto Sans';
 }
+
 :root {
-    --bg-color: #FCFDFD;
-    --bg-color-main: #F4A11D;
-    --bg-color-darker: #CC7412;
-    --bg-color-contrast: #10772C;
-    --bg-color-secondary: #A1BAB0;
+    --bg-color: #fcfdfd;
+    --bg-color-main: #f4a11d;
+    --bg-color-darker: #cc7412;
+    --bg-color-contrast: #10772c;
+    --bg-color-secondary: #a1bab0;
 
     --font-color: #000000;
-    --font-color-main: #FCFDFD;
-    --font-color-contrast: #10772C;
+    --font-color-main: #fcfdfd;
+    --font-color-contrast: #10772c;
 
     /* --logo-url: url("https://raw.githubusercontent.com/ALPHACamp/WFE-data-table/0f97f3113bff18353154b8644eb0b31fff2a3bef/icons/logo.svg");
     --darkmode-toggle-url: url("https://raw.githubusercontent.com/ALPHACamp/WFE-data-table/0f97f3113bff18353154b8644eb0b31fff2a3bef/icons/darkmode-on.svg");  */
-  }
-html, body {
+}
+
+html,
+body {
     margin: 0;
     padding: 0;
     background-color: var(--bg-color);
@@ -32,25 +35,30 @@ html, body {
     background-color: var(--bg-color-main);
     color: var(--font-color-main);
 }
+
 .logo {
     width: 50px;
     height: 50px;
 }
+
 .unfinished {
     margin-left: 10px;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
 }
+
 .count {
     color: var(--bg-color-contrast);
 }
+
 .header a {
     margin-left: 10px;
-    font-size: 24px;
+    font-size: 18px;
     text-decoration: none;
     cursor: pointer;
     color: var(--font-color-contrast);
 }
+
 .header a:hover {
     text-decoration: underline;
 }
@@ -65,7 +73,9 @@ section {
     max-width: 576px;
     padding: 20px 10px;
 }
-.input-content, .list-content {
+
+.input-content,
+.list-content {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -73,6 +83,7 @@ section {
     align-items: center;
     margin-bottom: 10px;
 }
+
 .button-img {
     width: 30px;
     height: 30px;
@@ -80,12 +91,14 @@ section {
     border-radius: 50%;
     cursor: pointer;
 }
+
 .button-img:hover {
     background-color: var(--bg-color-main);
     transition: background-color;
     transition-duration: 0.3s;
 }
-.input, 
+
+.input,
 .content {
     flex-shrink: 1;
     width: 100%;
@@ -93,10 +106,12 @@ section {
     padding: 0 10px;
     font-size: 20px;
 }
+
 .content-finish {
     color: var(--bg-color-secondary);
-    text-decoration:line-through;
+    text-decoration: line-through;
 }
+
 .input {
     border: none;
     outline: none;
@@ -119,19 +134,23 @@ section {
 }
 
 @media (min-width: 576px) {
+
     /* header */
     .header {
         padding: 30px;
     }
+
     .logo {
         width: 75px;
         height: 75px;
     }
+
     .unfinished {
         margin-left: 20px;
         font-size: 30px;
         font-weight: 600;
     }
+
     .header a {
         margin-left: 20px;
         font-size: 30px;
@@ -141,18 +160,22 @@ section {
     section {
         padding: 30px;
     }
-    .input-content, .list-content {
+
+    .input-content,
+    .list-content {
         margin-bottom: 15px;
     }
+
     .input {
         width: 450px;
     }
-    .input, 
+
+    .input,
     .content {
-    height: 40px;
-    padding: 0 15px;
-    font-size: 30px;
-}
+        height: 40px;
+        padding: 0 15px;
+        font-size: 30px;
+    }
 }
 
 /* 測試 img srcset */
@@ -164,14 +187,12 @@ section {
 /* Push Notifications 的訂閱按鈕，一開始預設隱藏，確認瀏覽器有支援 Notification API 後再顯示 */
 .enable-notifications {
     display: none;
-    min-height: 80px;
     padding: 10px 20px;
     border-radius: 20px;
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 600;
     background-color: var(--bg-color-main);
     border: none;
     outline: none;
     cursor: pointer;
 }
-
