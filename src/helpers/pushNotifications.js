@@ -22,6 +22,7 @@ function askForNotificationPermission() {
     })
 }
 
+// 在一般的 js code 執行「顯示通知」的動作
 // function displayConfirmNotification() {
 //     const options = {
 //         body: '您已成功訂閱我們的推播服務!',
@@ -29,6 +30,7 @@ function askForNotificationPermission() {
 //     new Notification('成功訂閱!!', options)
 // }
 
+// 透過 service worker 來去執行「顯示通知」的動作
 function displayConfirmNotification() {
     if ('serviceWorker' in navigator) {
         // https://ithelp.ithome.com.tw/articles/10225598
@@ -44,6 +46,7 @@ function displayConfirmNotification() {
             tag: 'confirm-notification',
             renotify: true,
             actions: [
+                // 這裡使用者選擇不同的 action，會在 sw.js 裡面做不同的處理
                 { action: 'confirm', title: '收到', icon: './src/assets/img/circle-outline.png' },
                 { action: 'cancel', title: '取消', icon: './src/assets/img/close.png' }
             ]

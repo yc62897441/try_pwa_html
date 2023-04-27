@@ -188,3 +188,22 @@ self.addEventListener('sync', function (event) {
         )
     }
 })
+
+// 處理 sw.showNotification，使用者選擇的 action
+self.addEventListener('notificationclick', function (event) {
+    const notification = event.notification
+    const action = event.action
+
+    if (action === 'confirm') {
+        console.log('action', action, 'Confirm was chosen')
+        notification.close()
+    } else if (action === 'cancel') {
+        console.log('action', action, 'Cancel was chosen')
+        notification.close()
+    }
+})
+
+// 如果用戶都沒有按下動作鈕(選擇 action)，只是把這則通知關掉
+self.addEventListener('notificationclose', function (event) {
+    console.log('Notification was closed', event)
+})
