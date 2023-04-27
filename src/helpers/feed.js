@@ -1,7 +1,7 @@
 const sharedMomentsArea = document.querySelector('#shared-moments')
 sharedMomentsArea.style.width = '100%'
 
-function createCard() {
+function createCard(image, location, title) {
     const cardWrapper = document.createElement('div')
     cardWrapper.className = 'shared-moment-card mdl-card mdl-shadow--2dp'
     cardWrapper.style.width = '100%'
@@ -15,7 +15,7 @@ function createCard() {
     cardTitle.style.flexDirection = 'row'
     cardTitle.style.justifyContent = 'center'
     cardTitle.style.alignItems = 'center'
-    cardTitle.style.backgroundImage = 'url("./src/assets/img/pexels-lukas-rodriguez-3618162.jpg")'
+    cardTitle.style.backgroundImage = `url("${image}")`
     cardTitle.style.backgroundSize = 'cover'
     cardTitle.style.borderRadius = '10px'
     cardTitle.style.height = '180px'
@@ -25,7 +25,7 @@ function createCard() {
 
     const cardTitleTextElement = document.createElement('h2')
     cardTitleTextElement.className = 'mdl-card__title-text'
-    cardTitleTextElement.textContent = '台北板橋一日遊'
+    cardTitleTextElement.textContent = `${title}`
     cardTitleTextElement.style.margin = '0'
     cardTitle.appendChild(cardTitleTextElement)
 
@@ -50,7 +50,8 @@ function clearCards() {
 // 3.service worker成功地從網路獲取該資源。
 // 4.接著透過dynamic caching將該資源暫存到cache中，以便下次訪問該資源，能更快速地回覆給用戶。
 // 5.最後service worker將fetch回來的response回傳到頁面。
-const url = 'https://httpbin.org/get' // 我們就是要從該外部 server 的 API 獲取資源
+// const url = 'https://httpbin.org/get' // 我們就是要從該外部 server 的 API 獲取資源
+const url = 'https://trypwafirebase-dc254-default-rtdb.firebaseio.com/trip/posts.json'
 let networkDataReceived = false // 這邊為了避免我同時成功地從「cache」和「網路上」獲取該資源，重複執行了createCards()，我使用 networkDataReceived 這個布林變數來去做判斷。當fetch API先回傳我們要的資源，我們只需要針對這個回傳的資料來建立我們的card(貼文)。就算cache裡存在我們要的資源也不必再建立一個card。
 fetch(url)
     .then(function (res) {
@@ -60,7 +61,9 @@ fetch(url)
         networkDataReceived = true
         // console.log('From Web', data)
         clearCards()
-        createCard()
+        Object.keys(data).forEach((key) => {
+            createCard(data[key].image, data[key].location, data[key].title)
+        })
     })
 
 if ('caches' in window) {
@@ -75,7 +78,9 @@ if ('caches' in window) {
             // console.log('From Cache', data)
             if (!networkDataReceived) {
                 clearCards()
-                createCard()
+                Object.keys(data).forEach((key) => {
+                    createCard(data[key].image, data[key].location, data[key].title)
+                })
             }
         })
 }
@@ -88,7 +93,8 @@ if ('caches' in window) {
 // 4. 接著將該資源暫存到 indexed DB 中，以便下次訪問該資源，能更快速地回覆給用戶。
 // 5. 最後 service worker 將 fetch 回來的 response 回傳到頁面。
 let tripDiaryNetworkDataReceived = false
-fetch('https://trip-diary-f56de.firebaseio.com/posts.json')
+// fetch('https://trip-diary-f56de.firebaseio.com/posts.json')
+fetch('https://trypwafirebase-dc254-default-rtdb.firebaseio.com/trip/posts.json')
     .then((res) => res.json())
     .then((json) => {
         tripDiaryNetworkDataReceived = true

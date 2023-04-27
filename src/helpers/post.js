@@ -2,18 +2,21 @@
 const form = document.querySelector('#background-sync-form')
 form.addEventListener('submit', function (event) {
     event.preventDefault()
-    const account = event.target[0].value
-    const password = event.target[1].value
+    const title = event.target[0].value
+    const location = event.target[1].value
     const postData = {}
 
     // 例外處理，避免表單欄位為空白
-    if (account.trim() === '' || password.trim() === '') {
+    if (title.trim() === '' || location.trim() === '') {
         window.alert('請輸入帳號、密碼')
         return
     }
 
-    postData.account = account
-    postData.password = password
+    postData.id = Math.floor(Math.random() * 1000000)
+    postData.title = title
+    postData.location = location
+    postData.image =
+        'https://firebasestorage.googleapis.com/v0/b/trypwafirebase-dc254.appspot.com/o/pexels-tom-fisk-1522160.jpg?alt=media&token=e8ee785e-b314-4212-9a79-18b734d2836a'
 
     post(postData)
 })
@@ -35,7 +38,8 @@ function post(postData) {
         })
     } else {
         // 如果不支援 serviceWorker 與 SyncManager，則直接發送 post request
-        fetch('https://trip-diary-f56de.firebaseio.com/posts.json', {
+        // fetch('https://trip-diary-f56de.firebaseio.com/posts.json', {
+        fetch('https://trypwafirebase-dc254-default-rtdb.firebaseio.com/trip/posts.json', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

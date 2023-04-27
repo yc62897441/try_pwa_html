@@ -2,8 +2,8 @@
 importScripts('./src/helpers/umd.js')
 importScripts('./src/helpers/utility.js')
 
-const cacheName = 'todolist-v20'
-const cacheDynamicName = 'dynamic-v20' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
+const cacheName = 'todolist-v22'
+const cacheDynamicName = 'dynamic-v22' // 動態資源是指「不是固定」且「不斷變動」的資源，有可能是當用戶訪問時才會去獲取的。
 
 // 初次進入頁面 or 進入首頁時，需要存到 server worker 的 files 清單
 const globalFilesToCache = [
@@ -104,7 +104,10 @@ self.addEventListener('fetch', function (event) {
     } else if (
         // Cache then Network Strategies
         // 存到 indexed DB。
-        event.request.url.indexOf('https://trip-diary-f56de.firebaseio.com/posts.json') > -1
+        // event.request.url.indexOf('https://trip-diary-f56de.firebaseio.com/posts.json') > -1
+        event.request.url.indexOf(
+            'https://trypwafirebase-dc254-default-rtdb.firebaseio.com/trip/posts.json'
+        ) > -1
     ) {
         event.respondWith(
             fetch(event.request).then(function (res) {
@@ -167,14 +170,18 @@ self.addEventListener('sync', function (event) {
                     Object.keys(data.postData).forEach((key) => {
                         postData[key] = data.postData[key]
                     })
-                    fetch('https://trip-diary-f56de.firebaseio.com/posts.json', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json',
-                        },
-                        body: JSON.stringify(postData),
-                    })
+                    // fetch('https://trip-diary-f56de.firebaseio.com/posts.json', {
+                    fetch(
+                        'https://trypwafirebase-dc254-default-rtdb.firebaseio.com/trip/posts.json',
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Accept: 'application/json',
+                            },
+                            body: JSON.stringify(postData),
+                        }
+                    )
                         .then(function (res) {
                             if (res.ok) {
                                 deleteItemFromData('sync-posts', data.key)

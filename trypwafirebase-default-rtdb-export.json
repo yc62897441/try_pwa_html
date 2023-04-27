@@ -1,0 +1,18 @@
+{
+  "trip": {
+    "posts": {
+      "a": {
+        "id": 1,
+        "image": "https://firebasestorage.googleapis.com/v0/b/trypwafirebase-dc254.appspot.com/o/pexels-tom-fisk-1522160.jpg?alt=media&token=e8ee785e-b314-4212-9a79-18b734d2836a",
+        "location": "台北台中",
+        "title": "台北台中一日遊"
+      },
+      "b": {
+        "id": 2,
+        "image": "https://firebasestorage.googleapis.com/v0/b/trypwafirebase-dc254.appspot.com/o/pexels-tom-fisk-1522160.jpg?alt=media&token=e8ee785e-b314-4212-9a79-18b734d2836a",
+        "location": "澳洲",
+        "title": "澳洲雪梨"
+      }
+    }
+  }
+}
