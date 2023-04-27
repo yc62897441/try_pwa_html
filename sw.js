@@ -207,3 +207,21 @@ self.addEventListener('notificationclick', function (event) {
 self.addEventListener('notificationclose', function (event) {
     console.log('Notification was closed', event)
 })
+
+// 監聽push事件(是否有瀏覽器供應商的push server發送訊息過來)
+self.addEventListener('push', function (event) {
+    console.log('Push Notification', event)
+    let data = { title: 'New!', content: 'Something new!' }
+
+    if (event.data) {
+        data = JSON.parse(event.data.text())
+    }
+
+    const options = {
+        body: data.content,
+        icon: './src/assets/img/apple-icon-128x128.png',
+        badge: './src/assets/img/plus.png',
+    }
+
+    event.waitUntil(self.registration.showNotification(data.title, options))
+})
