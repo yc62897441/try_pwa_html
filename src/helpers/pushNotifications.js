@@ -9,14 +9,12 @@ if ('Notification' in window) {
 }
 
 function askForNotificationPermission() {
-    Notification.requestPermission(function (result) {
+    Notification.requestPermission(async function (result) {
         // 這裡 result 只會有兩種結果：一個是用戶允許(granted)，另一個是用戶封鎖(denied)
         if (result === 'denied') {
             window.alert('No notification permission granted!')
         } else if (result === 'granted') {
-            window.alert(`result: ${result}`)
-
-            const configurePushSubResult = configurePushSub()
+            const configurePushSubResult = await configurePushSub()
 
             if (configurePushSubResult === true) {
                 // 訂閱成功
@@ -35,12 +33,12 @@ function askForNotificationPermission() {
 }
 
 // 為用戶建立訂閱
-function configurePushSub() {
+async function configurePushSub() {
     if (!('serviceWorker' in navigator)) {
         return null
     }
     let reg = null
-    navigator.serviceWorker.ready
+    return await navigator.serviceWorker.ready
         // 透過 service worker 來創建，所以要先取得已經註冊完成的service worker(這裡把它命名為swreg)
         .then(function (swreg) {
             reg = swreg
@@ -52,8 +50,11 @@ function configurePushSub() {
                 // 向瀏覽器供應商(Google、Mozilla)創建一個訂閱時，它會回傳一個API endpoint url，之後我的server(後端)會將要推播的貼文資訊傳送到這個API
                 // 為了避免任何人知道這個url後，就可以向我的用戶推播垃圾訊息。將userVisibleOnly這個property設為true，代表從我的server發出推播訊息時，只有該用戶會看到。
                 // 加入「公鑰」，確保是來已訂閱用戶所發出的訊息
-                const vapidPublicKey = 'xxxxxx' // 公鑰
+                const vapidPublicKey =
+                    'BDIOql6aKK-00AGzVKggeN9LSpjGd2golLzuiCvmUG0NAIa3wi-FmG17HElLHhXtzQBQQ9faZmJ2MWW87VI8bgg' // 公鑰。要使用正確的公鑰，不然會跳錯誤訊息 DOMException: Failed to execute 'subscribe' on 'PushManager': The provided applicationServerKey is not valid. // IT邦文章的教案主的公鑰
                 const convertedVapidPublicKey = urlBase64ToUint8Array(vapidPublicKey)
+
+                // 向瀏覽器供應商 push server 發送訂閱訊息，並取得回傳之 Endpoint 等資訊。
                 return reg.pushManager.subscribe({
                     userVisibleOnly: true,
                     applicationServerKey: convertedVapidPublicKey,
@@ -63,7 +64,10 @@ function configurePushSub() {
             }
         })
         .then(function (newSub) {
-            const firebaseUrl = 'https://trip-diary-f56de.firebaseio.com/subscriptions.json'
+            // 將瀏覽器供應商 push server 回傳之資訊，儲存到 firebase。
+            // const firebaseUrl = 'https://trip-diary-f56de.firebaseio.com/subscriptions.json' // IT邦文章的教案主的 firebase
+            const firebaseUrl =
+                'https://trypwafirebase-dc254-default-rtdb.firebaseio.com/trip/subscriptions.json'
             return fetch(firebaseUrl, {
                 method: 'POST',
                 headers: {
@@ -76,6 +80,8 @@ function configurePushSub() {
         .then(function (res) {
             if (res.ok) {
                 return true
+            } else {
+                return false
             }
         })
         .catch(function (err) {
@@ -120,4 +126,19 @@ function displayConfirmNotification() {
     } else {
         window.alert('serviceWorker nottttttttttt in navigator')
     }
+}
+
+// Web-Push
+// Public base64 to Uint
+function urlBase64ToUint8Array(base64String) {
+    var padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+    var base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/')
+
+    var rawData = window.atob(base64)
+    var outputArray = new Uint8Array(rawData.length)
+
+    for (var i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i)
+    }
+    return outputArray
 }

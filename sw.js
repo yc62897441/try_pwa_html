@@ -206,7 +206,21 @@ self.addEventListener('notificationclick', function (event) {
         notification.close()
     } else if (action === 'cancel') {
         console.log('action', action, 'Cancel was chosen')
-        notification.close()
+        event.waitUntil(
+            clients.matchAll().then(function (clis) {
+                const client = clis.find(function (c) {
+                    return c.visibilityState === 'visible'
+                })
+
+                if (client !== undefined) {
+                    client.navigate(notification.data.url)
+                    client.focus()
+                } else {
+                    clients.openWindow(notification.data.url)
+                }
+                notification.close()
+            })
+        )
     }
 })
 
